@@ -8,18 +8,7 @@ export const authOptions:NextAuthOptions =   {
             clientSecret:process.env.NEXTAUTH_SECRET || '',
             issuer: process.env.NEXTAUTH_ISSUER
           }),
-    ],
-    cookies: {
-        sessionToken: {
-            name: `session-token`,
-            options: {
-              httpOnly: true,
-              sameSite: 'none',
-              secure: true,
-              domain: '.vercel.app'
-            }
-          },
-    }
+    ]
 }
 
 export default NextAuth(authOptions)
