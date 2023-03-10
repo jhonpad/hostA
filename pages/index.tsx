@@ -1,8 +1,28 @@
-import { useSession, signIn, signOut} from 'next-auth/react'
+import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
+import { Session } from 'next-auth'
+import { useSession, signIn, signOut, getSession} from 'next-auth/react'
+type Props = {
+  session: Session | null
+}
 
-export default function Home() {
+export const getServerSideProps: GetServerSideProps<Props> = async(context: GetServerSidePropsContext) => {
+  const session = await getSession(context)
+
+  console.log('context -> ', context)
+  
+  return {
+    props: {
+      session
+    }
+  }
+}
+
+export const Home = ({
+  session
+}: InferGetServerSidePropsType<typeof getServerSideProps>) =>  {
   console.log('env -> ', process.env.NEXTAUTH_CLIENT_ID)
-  const { data: session } = useSession()
+  // const { data: session } = useSession()
+
 
   console.log('hi ',session)
 
@@ -23,3 +43,5 @@ export default function Home() {
   )
   
 }
+
+export default Home
