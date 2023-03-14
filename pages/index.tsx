@@ -7,11 +7,12 @@ import { getToken } from "next-auth/jwt";
 import { useEffect } from 'react'
 
 type Props = {
-  serverSession: Session | null
+  serverSession: Session | null,
+  session2: Session | null
 }
 
-export const getServerSideProps: GetServerSideProps<Props> = async({req, res}) => {
-  // const session = await getSession(context)
+export const getServerSideProps: GetServerSideProps<Props> = async({req, res, context}) => {
+  const session2 = await getSession(context)
 
   const token = await getToken({
     req,
@@ -34,19 +35,21 @@ export const getServerSideProps: GetServerSideProps<Props> = async({req, res}) =
   console.log('ServerSide - Session -> ', session)
   return {
     props: {
-      serverSession: newSession
+      serverSession: newSession,
+      session2
     }
   }
 }
 
 export const Home = ({
-  serverSession
+  serverSession,
+  session2
 }: InferGetServerSidePropsType<typeof getServerSideProps>) =>  {
   const { data: session, status } = useSession()
   // const [status, session ] = useSession()
 
   console.log('Session ',session)
-  console.log('Status -> ',status)
+  console.log('session2 -> ',session2)
 
   useEffect(() => {
         if(!serverSession) {
