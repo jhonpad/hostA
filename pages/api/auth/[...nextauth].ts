@@ -8,7 +8,18 @@ export const authOptions:NextAuthOptions =   {
             clientSecret:process.env.NEXTAUTH_SECRET || '',
             issuer: process.env.NEXTAUTH_ISSUER
           }),
-    ]
+    ],
+    callbacks: {
+        async signIn(params) {
+            const { user } = params
+
+            console.log(user)
+
+            
+            return user? true : false
+        },
+        
+    }
 }
 
 export default NextAuth(authOptions)
