@@ -83,6 +83,10 @@ export const Home = () => {
 
   }
 
+  useEffect(() => {
+    signIn('cognito')
+  }, [])
+
   return (
     <div>
       home
