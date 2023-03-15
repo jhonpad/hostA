@@ -53,10 +53,38 @@ export const Home = ({
   console.log('Session ',session)
   console.log('session2 -> ',session2)
 
+  const validSession = async () => {
+    const clientId = '7ta3hehkbumvglk4nb5icek0ft'
+    const secret = '12djclgjmmt8gnctpoj4gkbtitfratnibksggvci610aok8gvego'
+    const scope = 'OpenID'
+
+    const body = new URLSearchParams({
+      grant_type: 'authorization_code',
+      client_id: clientId,
+      client_secret:secret,
+      scope
+    }) 
+    
+    //`grant_type=client_credentials&client_id=${clientId}&client_secret=${secret}`;
+    
+    const response = await fetch(`https://sesion-guest-poc.auth.us-west-2.amazoncognito.com/oauth2/token`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+        // Authorization: `Basic ${`${clientId}:${secret}`}`
+      },
+      body
+    });
+
+    const data = await response.json();
+    console.log('Validate Sesion -> ', data)
+    // return data.access_token;
+  }
+
   useEffect(() => {
-        if(!serverSession) {
-          signIn('cognito')
-        }
+        // if(!serverSession) {
+        //   signIn('cognito')
+        // }
   }, [])
 
   if (serverSession) {
@@ -66,6 +94,7 @@ export const Home = ({
           evt.preventDefault()
           signOut()
           }}>Cerrar sesión</button>
+        <button onClick={() => validSession()}>Validar Sesion</button>
         <br />
         <h2> <b>Usuario:</b> {serverSession.user.email}</h2>
       </div>
@@ -75,6 +104,8 @@ export const Home = ({
   return (
     <div>
       <button onClick={() => signIn('cognito')}>Iniciar sesión</button>
+      <button onClick={() => validSession()}>Validar Sesion</button>
+
     </div>
   )
   
