@@ -11,8 +11,10 @@ type Props = {
   session2: Session | null
 }
 
-export const getServerSideProps: GetServerSideProps<Props> = async({req, res, context}) => {
+export const getServerSideProps: GetServerSideProps<Props> = async(context) => {
   const session2 = await getSession(context)
+
+  const {req, res} = context
 
   const token = await getToken({
     req,
@@ -94,11 +96,11 @@ export const Home = ({
   
   
 //   const { data: session } = useSession()
-//   useEffect(() => {
-//     if(!session) {
-//       signIn('cognito')
-//     }
-//   }, [])
+//   // useEffect(() => {
+//   //   if(!session) {
+//   //     signIn('cognito')
+//   //   }
+//   // }, [])
 
 //   return (
 //     <div>
