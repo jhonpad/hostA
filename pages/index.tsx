@@ -24,7 +24,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async(context) => {
   });
   console.log('Middleware - token -> ', token ) 
 
-  // validSession()
+  validSession()
 
   const csrf = await getCsrfToken()
 
